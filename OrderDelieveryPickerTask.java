@@ -20,7 +20,7 @@ public class OrderDelieveryPickerTask implements Runnable {
 	public void run() {
 		try {
 			
-			synchronized (lock) {
+			synchronized (OrderDelieveryPickerTask.class) {
 				Order order = processedOrders.take();
  				Thread.sleep(1500);
  				System.out.println("order# " + order.id+" "+order.state+" "+"ready for delievery:)");

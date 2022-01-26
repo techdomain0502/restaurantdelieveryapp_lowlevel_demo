@@ -12,17 +12,11 @@ public class OrdersService {
 	BlockingQueue<Order> processedOrders = new LinkedBlockingDeque<>();
 	BlockingQueue<Order> delieveryOrders = new LinkedBlockingDeque<>();
 	OrdersDatabase db = new OrdersDatabase();
-	Object lock1 = new Object();
-	Object lock2 = new Object();
-	Object lock3 = new Object();
-	Object lock4 = new Object();
-
+ 
 	// corresponds to rest api end point like /add?order={1,...}
 	void addOrder(Order order) {
 		db.addOrder(order);
-		// usingThreads(order);
-		// userExecService(order);
-		execService.submit(new UnProcessedOrderPutterTask(lock1, order, unProcessedOrders, db));
+		execService.submit(new UnProcessedOrderPutterTask(  order, unProcessedOrders, db));
 	}
 
 	/**
@@ -34,7 +28,7 @@ public class OrdersService {
 			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
 			return;
 		}
-		execService.submit(new UnProcessedOrdersPickerTask(lock2, unProcessedOrders, processedOrders, db));
+		execService.submit(new UnProcessedOrdersPickerTask(  unProcessedOrders, processedOrders, db));
 	}
 
 	void preparedOrder() {
@@ -42,7 +36,7 @@ public class OrdersService {
 			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
 			return;
 		}
-		execService.submit(new OrderDelieveryPickerTask(lock3, processedOrders, delieveryOrders, db));
+		execService.submit(new OrderDelieveryPickerTask( processedOrders, delieveryOrders, db));
 
 	}
 
@@ -51,15 +45,22 @@ public class OrdersService {
 			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
 			return;
 		}
-		execService.submit(new OrderDelieveryPlannerTask(lock4, delieveryOrders, db));
-
+		execService.submit(new OrderDelieveryPlannerTask( delieveryOrders, db));
 	}
 
+	/*
+	 * get the current status of the order
+	 */
 	void getOrderCurrentStatus() {
 		System.out.println("Enter order#");
 		Scanner sc = new Scanner(System.in);
 		int id = sc.nextInt();
 		Status s = db.getCurrentStatus(id);
 		System.out.println("Status of order# " + id + " " + s);
+	}
+	
+	void shutDownRestaurant() {
+		System.out.println("shutting down restaurant for the day!!");
+		execService.shutdown();
 	}
 }

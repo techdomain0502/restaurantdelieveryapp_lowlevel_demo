@@ -30,6 +30,9 @@ public class Main {
 			case "gcs":
 				service.getOrderCurrentStatus();
 				break;
+			case "shutdown":
+				service.shutDownRestaurant();
+				return;
 			}
 		}
 

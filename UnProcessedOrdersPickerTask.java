@@ -12,14 +12,13 @@ public class UnProcessedOrdersPickerTask implements Runnable {
 		this.unprocessedOrders = unProcessedOrders;
 		this.processedOrders = processedOrders;
 		this.db = db;
-		this.lock = lock;
 	}
 
 	@Override
 	public void run() {
 		try {
 			Order order = unprocessedOrders.take();
-			synchronized (lock) {
+			synchronized (UnProcessedOrdersPickerTask.class) {
 				System.out.println("processing your order# " + order.id);
 				Thread.sleep(1500);
 				order.state = Status.PROCESSED;

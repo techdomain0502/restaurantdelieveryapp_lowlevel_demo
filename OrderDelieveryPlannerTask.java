@@ -17,7 +17,7 @@ public class OrderDelieveryPlannerTask implements Runnable {
 	@Override
 	public void run() {
 		try {
-			synchronized (db) {
+			synchronized (OrderDelieveryPlannerTask.class) {
 				Order order = delieveryOrders.take();
 				order.state = Status.OUT_FOR_DELIEVERY;
 				db.setCurrentStatus(order.id, order.state);

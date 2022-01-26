@@ -19,7 +19,7 @@ public class UnProcessedOrderPutterTask implements Runnable {
 	@Override
 	public void run() {
 		try {
-			synchronized (lock) {
+			synchronized (UnProcessedOrderPutterTask.class) {
 				order.state = Status.RECEIVED;
 				db.setCurrentStatus(order.id, order.state);
 				System.out.println("order#"+order.id+" "+order.state);
