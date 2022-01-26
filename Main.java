@@ -1,10 +1,6 @@
 package lld.zomato.cmd;
 
 import java.util.Scanner;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Main {
 
@@ -16,10 +12,11 @@ public class Main {
 
 		while (true) {
 			input = sc.next();
-            input = input.toLowerCase() ;
+			input = input.toLowerCase();
 			switch (input) {
-			case  "ad":
-				service.addOrder(new Order(id++, Status.INIT));
+			case "ad":
+				service.addOrder(new Order(id, Status.INIT));
+				id++;
 				break;
 			case "pg":
 				service.preparingOrder();
@@ -29,6 +26,9 @@ public class Main {
 				break;
 			case "dl":
 				service.delieverOrder();
+				break;
+			case "gcs":
+				service.getOrderCurrentStatus();
 				break;
 			}
 		}
