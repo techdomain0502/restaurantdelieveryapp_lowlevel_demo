@@ -11,12 +11,12 @@ public class OrdersService {
 	BlockingQueue<Order> unProcessedOrders = new LinkedBlockingDeque<>();
 	BlockingQueue<Order> processedOrders = new LinkedBlockingDeque<>();
 	BlockingQueue<Order> delieveryOrders = new LinkedBlockingDeque<>();
-	OrdersDatabase db = new OrdersDatabase();
+	 
  
 	// corresponds to rest api end point like /add?order={1,...}
 	void addOrder(Order order) {
-		db.addOrder(order);
-		execService.submit(new UnProcessedOrderPutterTask(  order, unProcessedOrders, db));
+		OrdersDatabase.getInstance().addOrder(order);
+		execService.submit(new UnProcessedOrderPutterTask(  order, unProcessedOrders));
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class OrdersService {
 			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
 			return;
 		}
-		execService.submit(new UnProcessedOrdersPickerTask(  unProcessedOrders, processedOrders, db));
+		execService.submit(new UnProcessedOrdersPickerTask(  unProcessedOrders, processedOrders));
 	}
 
 	void preparedOrder() {
@@ -36,7 +36,7 @@ public class OrdersService {
 			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
 			return;
 		}
-		execService.submit(new OrderDelieveryPickerTask( processedOrders, delieveryOrders, db));
+		execService.submit(new OrderDelieveryPickerTask( processedOrders, delieveryOrders));
 
 	}
 
@@ -45,7 +45,7 @@ public class OrdersService {
 			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
 			return;
 		}
-		execService.submit(new OrderDelieveryPlannerTask( delieveryOrders, db));
+		execService.submit(new OrderDelieveryPlannerTask( delieveryOrders));
 	}
 
 	/*
@@ -55,7 +55,7 @@ public class OrdersService {
 		System.out.println("Enter order#");
 		Scanner sc = new Scanner(System.in);
 		int id = sc.nextInt();
-		Status s = db.getCurrentStatus(id);
+		Status s = OrdersDatabase.getInstance().getCurrentStatus(id);
 		System.out.println("Status of order# " + id + " " + s);
 	}
 	

@@ -8,9 +8,9 @@ public class OrderDelieveryPlannerTask implements Runnable {
 	OrdersDatabase db;
 	Object lock;
 
-	public OrderDelieveryPlannerTask(BlockingQueue<Order> delieveryOrders, OrdersDatabase db) {
+	public OrderDelieveryPlannerTask(BlockingQueue<Order> delieveryOrders ) {
 		this.delieveryOrders = delieveryOrders;
-		this.db = db;
+		this.db = OrdersDatabase.getInstance();
 	}
 
 	@Override

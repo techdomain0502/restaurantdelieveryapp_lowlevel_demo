@@ -8,11 +8,10 @@ public class OrderDelieveryPickerTask implements Runnable {
 	BlockingQueue<Order> processedOrders, delieveryOrders;
 	OrdersDatabase db;
 	Object lock;
-	public OrderDelieveryPickerTask(BlockingQueue<Order> processedOrders, BlockingQueue<Order> delieveryOrders,
-			OrdersDatabase db) {
+	public OrderDelieveryPickerTask(BlockingQueue<Order> processedOrders, BlockingQueue<Order> delieveryOrders ) {
 		this.processedOrders = processedOrders;
 		this.delieveryOrders = delieveryOrders;
-		this.db = db; 
+		this.db = OrdersDatabase.getInstance(); 
 	}
 
 	@Override

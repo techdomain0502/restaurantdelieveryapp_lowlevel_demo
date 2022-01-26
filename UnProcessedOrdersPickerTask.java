@@ -7,11 +7,10 @@ public class UnProcessedOrdersPickerTask implements Runnable {
 	BlockingQueue<Order> unprocessedOrders, processedOrders;
 	OrdersDatabase db;
 	Object lock;
-	public UnProcessedOrdersPickerTask(BlockingQueue<Order> unProcessedOrders, BlockingQueue<Order> processedOrders,
-			OrdersDatabase db) {
+	public UnProcessedOrdersPickerTask(BlockingQueue<Order> unProcessedOrders, BlockingQueue<Order> processedOrders) {
 		this.unprocessedOrders = unProcessedOrders;
 		this.processedOrders = processedOrders;
-		this.db = db;
+		this.db = OrdersDatabase.getInstance();
 	}
 
 	@Override

@@ -8,11 +8,11 @@ public class UnProcessedOrderPutterTask implements Runnable {
 	Order order;
 	OrdersDatabase db;
     Object lock;
-	public UnProcessedOrderPutterTask(Order order, BlockingQueue<Order> unprocessedOrders, OrdersDatabase db) {
+	public UnProcessedOrderPutterTask(Order order, BlockingQueue<Order> unprocessedOrders ) {
 		super();
 		this.order = order;
 		this.unprocessedOrders = unprocessedOrders;
-		this.db = db;
+		this.db = OrdersDatabase.getInstance();
 	}
 
 	@Override

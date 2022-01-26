@@ -6,7 +6,23 @@ import java.util.Optional;
 import dsalgo.fastslowpointer.ReorderList;
 
 public class OrdersDatabase {
+	private static OrdersDatabase mInstance;
+
 	ArrayList<Order> ordersList = new ArrayList();
+
+	private OrdersDatabase() {
+	}
+
+	public static OrdersDatabase getInstance() {
+		if (mInstance == null) {
+			synchronized (OrdersDatabase.class) {
+				if (mInstance == null) {
+					mInstance = new OrdersDatabase();
+				}
+			}
+		}
+		return mInstance;
+	}
 
 	void addOrder(Order order) {
 		ordersList.add(order);
