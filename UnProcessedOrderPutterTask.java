@@ -8,18 +8,17 @@ public class UnProcessedOrderPutterTask implements Runnable {
 	Order order;
 	OrdersDatabase db;
     Object lock;
-	public UnProcessedOrderPutterTask(Object lock,Order order, BlockingQueue<Order> unprocessedOrders, OrdersDatabase db) {
+	public UnProcessedOrderPutterTask(Order order, BlockingQueue<Order> unprocessedOrders, OrdersDatabase db) {
 		super();
 		this.order = order;
 		this.unprocessedOrders = unprocessedOrders;
 		this.db = db;
-		this.lock = lock;
 	}
 
 	@Override
 	public void run() {
 		try {
-			synchronized (lock) {
+			synchronized (UnProcessedOrderPutterTask.class) {
 				order.state = Status.RECEIVED;
 				db.setCurrentStatus(order.id, order.state);
 				System.out.println("order#"+order.id+" "+order.state);

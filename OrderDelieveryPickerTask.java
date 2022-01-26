@@ -8,19 +8,18 @@ public class OrderDelieveryPickerTask implements Runnable {
 	BlockingQueue<Order> processedOrders, delieveryOrders;
 	OrdersDatabase db;
 	Object lock;
-	public OrderDelieveryPickerTask(Object lock,BlockingQueue<Order> processedOrders, BlockingQueue<Order> delieveryOrders,
+	public OrderDelieveryPickerTask(BlockingQueue<Order> processedOrders, BlockingQueue<Order> delieveryOrders,
 			OrdersDatabase db) {
 		this.processedOrders = processedOrders;
 		this.delieveryOrders = delieveryOrders;
 		this.db = db; 
-		this.lock = lock;
 	}
 
 	@Override
 	public void run() {
 		try {
 			
-			synchronized (lock) {
+			synchronized (OrderDelieveryPickerTask.class) {
 				Order order = processedOrders.take();
  				Thread.sleep(1500);
  				System.out.println("order# " + order.id+" "+order.state+" "+"ready for delievery:)");

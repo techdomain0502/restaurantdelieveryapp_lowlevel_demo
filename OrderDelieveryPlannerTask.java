@@ -8,16 +8,15 @@ public class OrderDelieveryPlannerTask implements Runnable {
 	OrdersDatabase db;
 	Object lock;
 
-	public OrderDelieveryPlannerTask(Object lock,BlockingQueue<Order> delieveryOrders, OrdersDatabase db) {
+	public OrderDelieveryPlannerTask(BlockingQueue<Order> delieveryOrders, OrdersDatabase db) {
 		this.delieveryOrders = delieveryOrders;
 		this.db = db;
-		this.lock = lock;
 	}
 
 	@Override
 	public void run() {
 		try {
-			synchronized (db) {
+			synchronized (OrderDelieveryPlannerTask.class) {
 				Order order = delieveryOrders.take();
 				order.state = Status.OUT_FOR_DELIEVERY;
 				db.setCurrentStatus(order.id, order.state);
