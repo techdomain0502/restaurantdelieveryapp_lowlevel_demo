@@ -16,8 +16,10 @@ public class OrderDelieveryPlannerTask implements Runnable {
 	@Override
 	public void run() {
 		try {
+			Order order = null;
 			synchronized (OrderDelieveryPlannerTask.class) {
-				Order order = delieveryOrders.take();
+				 order = delieveryOrders.take();
+			}
 				order.state = Status.OUT_FOR_DELIEVERY;
 				db.setCurrentStatus(order.id, order.state);
 				System.out.println("order# " + order.id+" "+order.state);
@@ -25,7 +27,7 @@ public class OrderDelieveryPlannerTask implements Runnable {
 				order.state = Status.DELIEVERD;
 				db.setCurrentStatus(order.id, order.state);
 				System.out.println("order# " + order.id+" "+order.state);
-			}
+			 
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

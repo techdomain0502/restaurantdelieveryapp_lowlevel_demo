@@ -7,8 +7,9 @@ public class UnProcessedOrderPutterTask implements Runnable {
 	BlockingQueue<Order> unprocessedOrders;
 	Order order;
 	OrdersDatabase db;
-    Object lock;
-	public UnProcessedOrderPutterTask(Order order, BlockingQueue<Order> unprocessedOrders ) {
+	Object lock;
+
+	public UnProcessedOrderPutterTask(Order order, BlockingQueue<Order> unprocessedOrders) {
 		super();
 		this.order = order;
 		this.unprocessedOrders = unprocessedOrders;
@@ -18,15 +19,14 @@ public class UnProcessedOrderPutterTask implements Runnable {
 	@Override
 	public void run() {
 		try {
+			order.state = Status.RECEIVED;
+			db.setCurrentStatus(order.id, order.state);
+			System.out.println("order#" + order.id + " " + order.state);
+			Thread.sleep(500);
 			synchronized (UnProcessedOrderPutterTask.class) {
-				order.state = Status.RECEIVED;
-				db.setCurrentStatus(order.id, order.state);
-				System.out.println("order#"+order.id+" "+order.state);
-				Thread.sleep(500);
-				unprocessedOrders.put(order);	
+				unprocessedOrders.put(order);
 			}
-			
-			
+
 		} catch (InterruptedException e) {
 			System.out.println("exceptin received");
 			e.printStackTrace();
