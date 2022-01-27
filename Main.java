@@ -11,7 +11,6 @@ public class Main {
 		int input = -1;
 
 		while (true) {
-			try {
 				System.out.println(
 						     "\n****************************\n"
 						     + "welcome to xyz restaurant\n" + 
@@ -24,7 +23,14 @@ public class Main {
 																	// customer to get his order status
 								+ "\n6.shutdown- close restaurant\n"
 								+"\n****************************\n");// for restaurant api
+				
+				if(!sc.hasNextInt()) {
+					System.out.println("invalid Input. please try again!!");
+					sc.next();
+					continue;
+				}
 				input = sc.nextInt();
+				
 				switch (input) {
 				case 1:
 					service.addOrder(new Order(id, Status.INIT));
@@ -46,12 +52,9 @@ public class Main {
 					service.shutDownRestaurant();
 					return;
 					default:
+						System.out.println("invalid input. please try again");
 						continue;
 				}
-			} catch (Exception e) {
-				System.out.println("invalid entry. please try again");
-				sc.next();
-			}
 
 		}
 	}
