@@ -17,12 +17,13 @@ public class UnProcessedOrdersPickerTask implements Runnable {
 	@Override
 	public void run() {
 		try {
+			Thread.sleep(3500);
+			
 			Order order = null;
 			synchronized (UnProcessedOrdersPickerTask.class) {
 				order = unprocessedOrders.take();
 			}
-			System.out.println("processing your order# " + order.id);
-			Thread.sleep(1500);
+			System.out.println("preparing your order# " + order.id);
 			order.state = Status.PROCESSED;
 			db.setCurrentStatus(order.id, order.state);
 			

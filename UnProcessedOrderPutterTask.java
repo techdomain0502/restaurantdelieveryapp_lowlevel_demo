@@ -21,8 +21,9 @@ public class UnProcessedOrderPutterTask implements Runnable {
 		try {
 			order.state = Status.RECEIVED;
 			db.setCurrentStatus(order.id, order.state);
+			Thread.sleep(2500);
 			System.out.println("order#" + order.id + " " + order.state);
-			Thread.sleep(500);
+
 			synchronized (UnProcessedOrderPutterTask.class) {
 				unprocessedOrders.put(order);
 			}

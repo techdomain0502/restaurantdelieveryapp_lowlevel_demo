@@ -1,22 +1,29 @@
 package lld.zomato.cmd;
 
+import java.util.Optional;
+import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.*;
+
+import lld.zomato.cmd.commands.AddOrderCommand;
+import lld.zomato.cmd.commands.CancelOrderCommand;
+import lld.zomato.cmd.commands.DelieverOrderCommand;
+import lld.zomato.cmd.commands.GetOrderStatusCommand;
+import lld.zomato.cmd.commands.GetPendingOrdersCommands;
+import lld.zomato.cmd.commands.PreparedOrderCommand;
+import lld.zomato.cmd.commands.PreparingOrderCommand;
+import lld.zomato.cmd.commands.RestaurantCommand;
+import lld.zomato.cmd.commands.ShutDownRestaurantCommand;
 
 public class OrdersService {
-	ExecutorService execService = Executors.newCachedThreadPool();
-	BlockingQueue<Order> unProcessedOrders = new LinkedBlockingDeque<>();
-	BlockingQueue<Order> processedOrders = new LinkedBlockingDeque<>();
-	BlockingQueue<Order> delieveryOrders = new LinkedBlockingDeque<>();
-	 
- 
+	RestaurantCommand command = null;
+
 	// corresponds to rest api end point like /add?order={1,...}
 	void addOrder(Order order) {
-		OrdersDatabase.getInstance().addOrder(order);
-		execService.submit(new UnProcessedOrderPutterTask(  order, unProcessedOrders));
+		command = new AddOrderCommand(order);
+		command.execute();
 	}
 
 	/**
@@ -24,43 +31,38 @@ public class OrdersService {
 	 * restaurant manager current order status
 	 */
 	void preparingOrder() {
-		if (unProcessedOrders.isEmpty()) {
-			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
-			return;
-		}
-		execService.submit(new UnProcessedOrdersPickerTask(  unProcessedOrders, processedOrders));
+		command = new PreparingOrderCommand();
+		command.execute();
 	}
 
 	void preparedOrder() {
-		if (processedOrders.isEmpty()) {
-			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
-			return;
-		}
-		execService.submit(new OrderDelieveryPickerTask( processedOrders, delieveryOrders));
+		command = new PreparedOrderCommand();
+		command.execute();
 
 	}
 
 	void delieverOrder() {
-		if (delieveryOrders.isEmpty()) {
-			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
-			return;
-		}
-		execService.submit(new OrderDelieveryPlannerTask( delieveryOrders));
+		command = new DelieverOrderCommand();
+		command.execute();
 	}
 
-	/*
-	 * get the current status of the order
-	 */
 	void getOrderCurrentStatus() {
-		System.out.println("Enter order#");
-		Scanner sc = new Scanner(System.in);
-		int id = sc.nextInt();
-		Status s = OrdersDatabase.getInstance().getCurrentStatus(id);
-		System.out.println("Status of order# " + id + " " + s);
+		command = new GetOrderStatusCommand();
+		command.execute();
 	}
-	
+
 	void shutDownRestaurant() {
-		System.out.println("shutting down restaurant for the day!!");
-		execService.shutdown();
+		command = new ShutDownRestaurantCommand();
+		command.execute();
+	}
+
+	public void cancelOrder() {
+	   command = new CancelOrderCommand();
+       command.execute(); 
+	}
+
+	public void getPendingOrderList() {
+		command = new GetPendingOrdersCommands();
+		command.execute();
 	}
 }
