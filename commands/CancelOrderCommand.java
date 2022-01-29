@@ -4,9 +4,9 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 
-import lld.zomato.cmd.Order;
-import lld.zomato.cmd.OrdersDatabase;
-import lld.zomato.cmd.Status;
+import lld.zomato.cmd.OrderStatus;
+import lld.zomato.cmd.model.Order;
+import lld.zomato.cmd.model.OrdersDatabase;
 
 public class CancelOrderCommand implements RestaurantCommand {
 
@@ -25,8 +25,8 @@ public class CancelOrderCommand implements RestaurantCommand {
 	public void execute() {
 		System.out.println("please enter the order no to cancel!!");
 		int orderId = GlobalProvider.getGlobalProvider().getScanner().nextInt();
-		Status currentStatus = OrdersDatabase.getInstance().getCurrentStatus(orderId);
-		if (currentStatus == Status.INIT || currentStatus == Status.RECEIVED) {
+		OrderStatus currentStatus = OrdersDatabase.getInstance().getCurrentStatus(orderId);
+		if (currentStatus == OrderStatus.INIT || currentStatus == OrderStatus.RECEIVED) {
 			Order order = OrdersDatabase.getInstance().removeOrder(orderId);
 			Optional.ofNullable(order).ifPresent(orde -> {
 				unProcessedOrders.remove(orde);

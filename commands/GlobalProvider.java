@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 
-import lld.zomato.cmd.Order;
+import lld.zomato.cmd.model.Order;
 
 public class GlobalProvider {
 

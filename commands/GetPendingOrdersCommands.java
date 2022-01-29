@@ -1,6 +1,6 @@
 package lld.zomato.cmd.commands;
 
-import lld.zomato.cmd.OrdersDatabase;
+import lld.zomato.cmd.model.OrdersDatabase;
 
 public class GetPendingOrdersCommands implements RestaurantCommand{
 

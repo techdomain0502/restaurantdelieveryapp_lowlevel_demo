@@ -4,10 +4,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingDeque;
 
-import lld.zomato.cmd.Order;
-import lld.zomato.cmd.OrderDelieveryPickerTask;
-import lld.zomato.cmd.OrderDelieveryPlannerTask;
-import lld.zomato.cmd.UnProcessedOrdersPickerTask;
+import lld.zomato.cmd.model.Order;
+import lld.zomato.cmd.tasks.OrderDelieveryPickerTask;
+import lld.zomato.cmd.tasks.OrderDelieveryPlannerTask;
+import lld.zomato.cmd.tasks.UnProcessedOrdersPickerTask;
 
 public class DelieverOrderCommand implements RestaurantCommand {
 	private BlockingQueue<Order> delieveredOrders;

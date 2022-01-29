@@ -2,8 +2,8 @@ package lld.zomato.cmd.commands;
 
 import java.util.Scanner;
 
-import lld.zomato.cmd.OrdersDatabase;
-import lld.zomato.cmd.Status;
+import lld.zomato.cmd.OrderStatus;
+import lld.zomato.cmd.model.OrdersDatabase;
 
 public class GetOrderStatusCommand implements RestaurantCommand {
 
@@ -12,7 +12,7 @@ public class GetOrderStatusCommand implements RestaurantCommand {
 		System.out.println("Enter order#");
 		Scanner sc = GlobalProvider.getGlobalProvider().getScanner();
 		int id = sc.nextInt();
-		Status s = OrdersDatabase.getInstance().getCurrentStatus(id);
+		OrderStatus s = OrdersDatabase.getInstance().getCurrentStatus(id);
 		System.out.println("Status of order# " + id + " " + s);
 	}
 

@@ -3,9 +3,9 @@ package lld.zomato.cmd.commands;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 
-import lld.zomato.cmd.Order;
-import lld.zomato.cmd.OrdersDatabase;
-import lld.zomato.cmd.UnProcessedOrderPutterTask;
+import lld.zomato.cmd.model.Order;
+import lld.zomato.cmd.model.OrdersDatabase;
+import lld.zomato.cmd.tasks.UnProcessedOrderPutterTask;
 
 public class AddOrderCommand implements RestaurantCommand {
 

@@ -1,0 +1,5 @@
+package lld.zomato.cmd;
+
+public enum OrderStatus {
+	INIT,RECEIVED, PROCESSING, PROCESSED,DELIEVERING, OUT_FOR_DELIEVERY, DELIEVERD, NOT_AVAILABLE
+}
