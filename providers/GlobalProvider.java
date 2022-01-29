@@ -1,4 +1,4 @@
-package lld.zomato.cmd.commands;
+package lld.zomato.cmd.providers;
 
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;

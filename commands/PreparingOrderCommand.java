@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import lld.zomato.cmd.model.Order;
+import lld.zomato.cmd.providers.GlobalProvider;
 import lld.zomato.cmd.tasks.UnProcessedOrdersPickerTask;
 
 public class PreparingOrderCommand implements RestaurantCommand {

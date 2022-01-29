@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 
 import lld.zomato.cmd.model.Order;
 import lld.zomato.cmd.model.OrdersDatabase;
+import lld.zomato.cmd.providers.GlobalProvider;
 import lld.zomato.cmd.tasks.UnProcessedOrderPutterTask;
 
 public class AddOrderCommand implements RestaurantCommand {

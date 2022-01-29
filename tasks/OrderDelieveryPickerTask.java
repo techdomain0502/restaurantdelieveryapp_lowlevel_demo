@@ -26,7 +26,7 @@ public class OrderDelieveryPickerTask implements Runnable {
 				 order = processedOrders.take();
 			}
 			Thread.sleep(1500);
-			System.out.println("order# " + order.getId() + " " + order.getStatus() + " " + "ready for delievery:)");
+			System.out.println("order# " + order.getId() + " " + order.getStatus().getDescription() );
 			order.setStatus(OrderStatus.DELIEVERING);
 			db.setCurrentStatus(order.getId(), order.getStatus());
 			synchronized (OrderDelieveryPickerTask.class) {

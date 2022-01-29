@@ -26,11 +26,12 @@ public class OrderDelieveryPlannerTask implements Runnable {
 			}
 				order.setStatus(OrderStatus.OUT_FOR_DELIEVERY);
 				db.setCurrentStatus(order.getId(), order.getStatus());
-				System.out.println("order# " + order.getId()+" "+order.getStatus());
+				System.out.println("order# " + order.getId()+" "+order.getStatus().getDescription()
+				);
 				Thread.sleep(1500);
 				order.setStatus(OrderStatus.DELIEVERD);
 				db.setCurrentStatus(order.getId(), order.getStatus());
-				System.out.println("order# " + order.getId()+" "+order.getStatus());
+				System.out.println("order# " + order.getId()+" "+order.getStatus().getDescription());
 			 
 
 		} catch (InterruptedException e) {

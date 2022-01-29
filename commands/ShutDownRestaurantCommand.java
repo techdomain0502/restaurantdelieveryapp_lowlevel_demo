@@ -1,5 +1,7 @@
 package lld.zomato.cmd.commands;
 
+import lld.zomato.cmd.providers.GlobalProvider;
+
 public class ShutDownRestaurantCommand implements RestaurantCommand {
 
 	@Override
