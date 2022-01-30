@@ -1,9 +1,13 @@
 package lld.zomato.cmd;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.Scanner;
 
 import lld.zomato.cmd.commands.ShowMenuCommand;
+import lld.zomato.cmd.consts.OrderStatus;
 import lld.zomato.cmd.model.Order;
+import lld.zomato.cmd.states.InitState;
 
 public class MainApp {
 
@@ -13,6 +17,7 @@ public class MainApp {
 		Scanner sc = new Scanner(System.in);
 		int input = -1;
 		new ShowMenuCommand().execute();
+		Order order = null;
 		while (true) {
 
 			if (!sc.hasNextInt()) {
@@ -22,33 +27,39 @@ public class MainApp {
 			}
 			input = sc.nextInt();
 
-			switch (input) {
-			case 1:
-				service.addOrder(new Order(id, OrderStatus.INIT));
+			Command c = Command.getCommandByOrdinal(input);
+			switch (c) {
+			case ADD_ORDER:
+				order = new Order(id, OrderStatus.INIT);
+				order.setState(new InitState());
+				service.addOrder(order);
 				id++;
 				break;
-			case 2:
-				service.preparingOrder();
+			case PREPARE_ORDER:
+				Optional.ofNullable(order).ifPresentOrElse(or -> service.preparingOrder(or),
+						() -> System.out.println("order not initialized. please try again"));
 				break;
-			case 3:
-				service.preparedOrder();
+			case SET_ORDER_READY:
+				Optional.ofNullable(order).ifPresentOrElse(or -> service.preparedOrder(or),
+						() -> System.out.println("order not initialized. please try again"));
 				break;
-			case 4:
-				service.delieverOrder();
+			case DELIVERED_ORDER:
+				Optional.ofNullable(order).ifPresentOrElse(or -> service.delieverOrder(or),
+						() -> System.out.println("order not initialized. please try again"));
 				break;
-			case 5:
+			case GET_ORDER_STATUS:
 				service.getOrderCurrentStatus();
 				break;
-			case 6:
+			case SHUTDOWN_RESTAURANT:
 				service.shutDownRestaurant();
 				return;
-			case 7:
+			case CANCEL_ORDER:
 				service.cancelOrder();
 				break;
-			case 8:
+			case SHOW_ORDERS:
 				service.getPendingOrderList();
 				break;
-			case -1: {
+			case SHOW_RESTAURANT_MENU: {
 				service.showMenu();
 			}
 				break;

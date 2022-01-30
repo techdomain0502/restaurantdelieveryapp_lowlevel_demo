@@ -2,7 +2,7 @@ package lld.zomato.cmd.tasks;
 
 import java.util.concurrent.BlockingQueue;
 
-import lld.zomato.cmd.OrderStatus;
+import lld.zomato.cmd.consts.OrderStatus;
 import lld.zomato.cmd.model.Order;
 import lld.zomato.cmd.model.OrdersDatabase;
 
@@ -21,8 +21,9 @@ public class UnProcessedOrdersPickerTask implements Runnable {
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(3500);
-			
+			/*
+			 * Thread.sleep(3500);
+			 */
 			Order order = null;
 			synchronized (UnProcessedOrdersPickerTask.class) {
 				order = unprocessedOrders.take();

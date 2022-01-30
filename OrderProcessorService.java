@@ -25,19 +25,19 @@ public class OrderProcessorService {
 	 * these below are internal apis not exposed to customer Executes as per
 	 * restaurant manager current order status
 	 */
-	void preparingOrder() {
-		command = new PreparingOrderCommand();
+	void preparingOrder(Order order) {
+		command = new PreparingOrderCommand(order);
 		command.execute();
 	}
 
-	void preparedOrder() {
-		command = new PreparedOrderCommand();
+	void preparedOrder(Order order) {
+		command = new PreparedOrderCommand(order);
 		command.execute();
 
 	}
 
-	void delieverOrder() {
-		command = new DelieverOrderCommand();
+	void delieverOrder(Order order) {
+		command = new DelieverOrderCommand(order);
 		command.execute();
 	}
 

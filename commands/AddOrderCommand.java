@@ -16,14 +16,14 @@ public class AddOrderCommand implements RestaurantCommand {
 
 	public AddOrderCommand(Order order) {
 		this.order = order;
-		this.unProcessedOrders = GlobalProvider.getGlobalProvider().getUnProcessedOrders();
-		this.executor = GlobalProvider.getGlobalProvider().getExecService();
 	}
 
 	@Override
 	public void execute() {
-		OrdersDatabase.getInstance().addOrder(this.order);
-		executor.submit(new UnProcessedOrderPutterTask(order, unProcessedOrders));
+		this.order.processState(order);
+		this.order.next();
+		this.order.processState(order);
+		this.order.next();
 	}
 
 }

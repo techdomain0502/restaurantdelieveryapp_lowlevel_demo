@@ -13,20 +13,19 @@ import lld.zomato.cmd.tasks.UnProcessedOrdersPickerTask;
 public class DelieverOrderCommand implements RestaurantCommand {
 	private BlockingQueue<Order> delieveredOrders;
 	private ExecutorService executor;
+	private Order order;
 
-	public DelieverOrderCommand() {
-		this.delieveredOrders = GlobalProvider.getGlobalProvider().getDelieveryOrders();
-		executor = GlobalProvider.getGlobalProvider().getExecService();
+	public DelieverOrderCommand(Order order) {
+		this.order = order;
 	}
 
 	@Override
 	public void execute() {
-		if (delieveredOrders.isEmpty()) {
-			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
-			return;
-		}
-		executor.submit(new OrderDelieveryPlannerTask(delieveredOrders));
+        this.order.processState(order);
+        this.order.next();
 
+        this.order.processState(order);
+        this.order.next();
 	}
 
 }

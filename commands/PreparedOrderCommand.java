@@ -13,20 +13,16 @@ public class PreparedOrderCommand implements RestaurantCommand {
 	private BlockingQueue<Order> processedOrders;
 	private BlockingQueue<Order> delieveredOrders;
 	private ExecutorService executor;
-
-	public PreparedOrderCommand() {
-		this.delieveredOrders = GlobalProvider.getGlobalProvider().getDelieveryOrders();
-		this.processedOrders = GlobalProvider.getGlobalProvider().getProcessedOrders();
-		executor = GlobalProvider.getGlobalProvider().getExecService();
+    private Order order;
+	public PreparedOrderCommand(Order order) {
+		this.order = order;
 	}
 
 	@Override
 	public void execute() {
-		if (processedOrders.isEmpty()) {
-			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
-			return;
-		}
-		executor.submit(new OrderDelieveryPickerTask(processedOrders, delieveredOrders));
+		this.order.processState(this.order);
+		this.order.next();
+		
 	}
 
 }

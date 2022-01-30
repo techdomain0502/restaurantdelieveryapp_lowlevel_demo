@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import dsalgo.fastslowpointer.ReorderList;
-import lld.zomato.cmd.OrderStatus;
+import lld.zomato.cmd.consts.OrderStatus;
 
 public class OrdersDatabase {
 	private static OrdersDatabase mInstance;

@@ -2,7 +2,7 @@ package lld.zomato.cmd.commands;
 
 import java.util.Scanner;
 
-import lld.zomato.cmd.OrderStatus;
+import lld.zomato.cmd.consts.OrderStatus;
 import lld.zomato.cmd.model.OrdersDatabase;
 import lld.zomato.cmd.providers.GlobalProvider;
 

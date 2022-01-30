@@ -2,7 +2,7 @@ package lld.zomato.cmd.tasks;
 
 import java.util.concurrent.BlockingQueue;
 
-import lld.zomato.cmd.OrderStatus;
+import lld.zomato.cmd.consts.OrderStatus;
 import lld.zomato.cmd.model.Order;
 import lld.zomato.cmd.model.OrdersDatabase;
 
@@ -25,7 +25,7 @@ public class OrderDelieveryPickerTask implements Runnable {
 			synchronized (OrderDelieveryPickerTask.class) {
 				 order = processedOrders.take();
 			}
-			Thread.sleep(1500);
+			//Thread.sleep(1500);
 			System.out.println("order# " + order.getId() + " " + order.getStatus().getDescription() );
 			order.setStatus(OrderStatus.DELIEVERING);
 			db.setCurrentStatus(order.getId(), order.getStatus());

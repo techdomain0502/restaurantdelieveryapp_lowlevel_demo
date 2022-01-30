@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 
-import lld.zomato.cmd.OrderStatus;
+import lld.zomato.cmd.consts.OrderStatus;
 import lld.zomato.cmd.model.Order;
 import lld.zomato.cmd.model.OrdersDatabase;
 import lld.zomato.cmd.providers.GlobalProvider;
