@@ -20,7 +20,7 @@ public class PreparingOrderCommand implements RestaurantCommand {
 
 	@Override
 	public void execute() {
-		this.order.processState(order);
+		this.order.processState();
 		this.order.next();
 	}
 

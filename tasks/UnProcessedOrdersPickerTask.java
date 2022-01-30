@@ -11,8 +11,11 @@ public class UnProcessedOrdersPickerTask implements Runnable {
 	BlockingQueue<Order> unprocessedOrders, processedOrders;
 	OrdersDatabase db;
 	Object lock;
+	Order order;
 
-	public UnProcessedOrdersPickerTask(BlockingQueue<Order> unProcessedOrders, BlockingQueue<Order> processedOrders) {
+	public UnProcessedOrdersPickerTask(Order order, BlockingQueue<Order> unProcessedOrders,
+			BlockingQueue<Order> processedOrders) {
+		this.order = order;
 		this.unprocessedOrders = unProcessedOrders;
 		this.processedOrders = processedOrders;
 		this.db = OrdersDatabase.getInstance();
@@ -24,14 +27,10 @@ public class UnProcessedOrdersPickerTask implements Runnable {
 			/*
 			 * Thread.sleep(3500);
 			 */
-			Order order = null;
-			synchronized (UnProcessedOrdersPickerTask.class) {
-				order = unprocessedOrders.take();
-			}
+			 
 			System.out.println("preparing your order# " + order.getId());
-			order.setStatus(OrderStatus.PROCESSED);
-			db.setCurrentStatus(order.getId(), order.getStatus());
-			
+			db.setCurrentStatus(order.getId(), order.getCurrentState());
+
 			synchronized (UnProcessedOrdersPickerTask.class) {
 				processedOrders.put(order);
 			}

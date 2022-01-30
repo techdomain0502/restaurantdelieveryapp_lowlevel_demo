@@ -11,28 +11,17 @@ public class OrderDelieveryPlannerTask implements Runnable {
 	BlockingQueue<Order> delieveryOrders;
 	OrdersDatabase db;
 	Object lock;
+	Order order;
 
-	public OrderDelieveryPlannerTask(BlockingQueue<Order> delieveryOrders ) {
+	public OrderDelieveryPlannerTask(Order order, BlockingQueue<Order> delieveryOrders) {
 		this.delieveryOrders = delieveryOrders;
 		this.db = OrdersDatabase.getInstance();
+		this.order = order;
 	}
 
 	@Override
 	public void run() {
-		try {
-			Order order = null;
-			synchronized (OrderDelieveryPlannerTask.class) {
-				 order = delieveryOrders.take();
-			}
-				order.setStatus(OrderStatus.OUT_FOR_DELIEVERY);
-				db.setCurrentStatus(order.getId(), order.getStatus());
-				System.out.println("order# " + order.getId()+" "+order.getStatus().getDescription()
-				);
-				//Thread.sleep(1500);
-			
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		db.setCurrentStatus(order.getId(), order.getCurrentState());
+
 	}
 }

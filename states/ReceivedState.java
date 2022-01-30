@@ -12,7 +12,7 @@ public class ReceivedState implements OrderState {
 		OrdersDatabase.getInstance().addOrder(order);
 		GlobalProvider.getGlobalProvider().getExecService().submit(
 				new UnProcessedOrderPutterTask(order, GlobalProvider.getGlobalProvider().getUnProcessedOrders()));
-
+         System.out.println("order no "+order.getId()+" received");
 	}
 
 	@Override
@@ -20,4 +20,10 @@ public class ReceivedState implements OrderState {
 		order.setState(new PreparingState());
 	}
 
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "RECEIVED";
+	}
 }

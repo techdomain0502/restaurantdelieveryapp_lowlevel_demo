@@ -1,10 +1,8 @@
 package lld.zomato.cmd.commands;
 
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 
-import lld.zomato.cmd.consts.OrderStatus;
 import lld.zomato.cmd.model.Order;
 import lld.zomato.cmd.model.OrdersDatabase;
 import lld.zomato.cmd.providers.GlobalProvider;
@@ -12,30 +10,35 @@ import lld.zomato.cmd.providers.GlobalProvider;
 public class CancelOrderCommand implements RestaurantCommand {
 
 	private BlockingQueue<Order> unProcessedOrders;
-	
-	
-	
+
 	public CancelOrderCommand() {
 		super();
 		unProcessedOrders = GlobalProvider.getGlobalProvider().getUnProcessedOrders();
 	}
 
-
-
 	@Override
 	public void execute() {
 		System.out.println("please enter the order no to cancel!!");
 		int orderId = GlobalProvider.getGlobalProvider().getScanner().nextInt();
-		OrderStatus currentStatus = OrdersDatabase.getInstance().getCurrentStatus(orderId);
-		if (currentStatus == OrderStatus.INIT || currentStatus == OrderStatus.RECEIVED) {
-			Order order = OrdersDatabase.getInstance().removeOrder(orderId);
-			Optional.ofNullable(order).ifPresent(orde -> {
-				unProcessedOrders.remove(orde);
-				System.out.println("order # " + orderId + " CANCELLED. SEE YOU AGAIN:)");
-			});
-		} else {
-			System.out.println("sorrry your order is in state " + currentStatus + "\n cannot be cancelled now");
+		String status = OrdersDatabase.getInstance().getCurrentStatus(orderId);
+		OrdersDatabase.getInstance().removeOrder(orderId);
+
+		if (status.equalsIgnoreCase("RECEIVED")) {
+			Iterator<Order> iterator = GlobalProvider.getGlobalProvider().getUnProcessedOrders().iterator();
+
+			while (iterator.hasNext()) {
+				Order o = iterator.next();
+				if (o.getId() == orderId) {
+					iterator.remove();
+					break;
+				}
+			}
+
+			System.out.println("order with id " + orderId + " is cancelled");
+			return;
 		}
+
+		System.out.println("sorry order is state " + status + " and can't be cancelled now");
 	}
 
 }

@@ -28,24 +28,19 @@ public class MainApp {
 			input = sc.nextInt();
 
 			Command c = Command.getCommandByOrdinal(input);
+			
 			switch (c) {
 			case ADD_ORDER:
-				order = new Order(id, OrderStatus.INIT);
-				order.setState(new InitState());
-				service.addOrder(order);
-				id++;
+				service.addOrder();
 				break;
 			case PREPARE_ORDER:
-				Optional.ofNullable(order).ifPresentOrElse(or -> service.preparingOrder(or),
-						() -> System.out.println("order not initialized. please try again"));
+				service.preparingOrder();
 				break;
 			case SET_ORDER_READY:
-				Optional.ofNullable(order).ifPresentOrElse(or -> service.preparedOrder(or),
-						() -> System.out.println("order not initialized. please try again"));
+				service.preparedOrder();
 				break;
 			case DELIVERED_ORDER:
-				Optional.ofNullable(order).ifPresentOrElse(or -> service.delieverOrder(or),
-						() -> System.out.println("order not initialized. please try again"));
+				service.delieverOrder();
 				break;
 			case GET_ORDER_STATUS:
 				service.getOrderCurrentStatus();

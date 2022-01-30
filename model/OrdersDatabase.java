@@ -5,11 +5,14 @@ import java.util.Optional;
 
 import dsalgo.fastslowpointer.ReorderList;
 import lld.zomato.cmd.consts.OrderStatus;
+import lld.zomato.cmd.states.ErrorState;
+import lld.zomato.cmd.states.InitState;
+import lld.zomato.cmd.states.OrderState;
 
 public class OrdersDatabase {
 	private static OrdersDatabase mInstance;
 
-	ArrayList<Order> ordersList = new ArrayList();
+	ArrayList<OrderItem> ordersList = new ArrayList();
 
 	private OrdersDatabase() {
 	}
@@ -26,42 +29,56 @@ public class OrdersDatabase {
 	}
 
 	public void addOrder(Order order) {
-		ordersList.add(order);
+		int id = order.getId();
+		OrderState state = order.getCurrentState();
+		OrderItem orderItem = new OrderItem();
+		orderItem.setId(id);
+		orderItem.setState(orderItem.getState());
+		ordersList.add(orderItem);
 	}
 
-	public Order removeOrder(int id) {
-		Optional<Order> odr = ordersList.stream().filter(o -> id == o.getId()).findFirst();
+	public void removeOrder(int id) {
+		Optional<OrderItem> odr = ordersList.stream().filter(o -> id == o.getId()).findFirst();
 		if (odr.isPresent()) {
-			ordersList.remove(odr);
-			return odr.get();
+			ordersList.remove(odr.get());
 		} else {
 			System.out.println("no such order with id " + id + " exists!!");
 		}
-		return null;
+		 
 	}
 
-	public OrderStatus setCurrentStatus(int id, OrderStatus status) {
-		Optional<Order> order = ordersList.stream().filter(or -> id == or.getId()).findFirst();
+	public OrderState setCurrentStatus(int id, OrderState state) {
+		Optional<OrderItem> order = ordersList.stream().filter(or -> id == or.getId()).findFirst();
 		if (order.isPresent()) {
-			order.get().setStatus(status);
-			return status;
+			order.get().setState(state.toString());
+			return state;
 		} else
-			return OrderStatus.NOT_AVAILABLE;
+			return new ErrorState();
 	}
 
-	public OrderStatus getCurrentStatus(int id) {
-		Optional<Order> order = ordersList.stream().filter(or -> id == or.getId()).findFirst();
+	public String getCurrentStatus(int id) {
+		Optional<OrderItem> order = ordersList.stream().filter(or -> id == or.getId()).findFirst();
 
 		if (order.isPresent()) {
-			return order.get().getStatus();
+			return order.get().getState();
 		} else
-			return OrderStatus.NOT_AVAILABLE;
+			return new ErrorState().toString();
 	}
 
 	public void getCurrentPendingOrders() {
 		ordersList.stream().forEach(order -> {
-			System.out.println(order.getId() + " " + order.getStatus());
+			System.out.println(order.getId() + " " + order.getState());
 		});
 	}
 
+	
+	public static void main(String[] args) {
+		OrderItem item = new OrderItem();
+		item.setId(1);
+		item.setState(new InitState().toString());
+		System.out.println(item);
+		 
+		
+	}
+	
 }

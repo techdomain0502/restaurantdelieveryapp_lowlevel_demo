@@ -9,19 +9,22 @@ public class DelieveringState implements OrderState {
 
 	@Override
 	public void processState(Order order) {
-
-		if (GlobalProvider.getGlobalProvider().getDelieveryOrders().isEmpty()) {
-			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
-			return;
-		}
+ 
 		GlobalProvider.getGlobalProvider().getExecService()
-				.submit(new OrderDelieveryPlannerTask(GlobalProvider.getGlobalProvider().getDelieveryOrders()));
+				.submit(new OrderDelieveryPlannerTask(order,GlobalProvider.getGlobalProvider().getDelieveryOrders()));
+        System.out.println("order no "+order.getId()+" is scheduled for delievery");
 
 	}
 
 	@Override
 	public void nextState(Order order) {
 		order.setState(new DelieveredState());
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "DELIEVERING";
 	}
 
 }

@@ -13,7 +13,7 @@ public class GetOrderStatusCommand implements RestaurantCommand {
 		System.out.println("Enter order#");
 		Scanner sc = GlobalProvider.getGlobalProvider().getScanner();
 		int id = sc.nextInt();
-		OrderStatus s = OrdersDatabase.getInstance().getCurrentStatus(id);
+		String s = OrdersDatabase.getInstance().getCurrentStatus(id);
 		System.out.println("Status of order# " + id + " " + s);
 	}
 

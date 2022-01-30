@@ -16,5 +16,11 @@ public class ErrorState implements OrderState {
 		
 		
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "error met";
+	}
 
 }

@@ -8,20 +8,24 @@ public class PreparingState implements OrderState {
 
 	@Override
 	public void processState(Order order) {
-		if (GlobalProvider.getGlobalProvider().getUnProcessedOrders().isEmpty()) {
-			System.out.println("no orders in queue. \n" + "wrong input.\n please try again");
-			return;
-		}
+	 
 		GlobalProvider.getGlobalProvider().getExecService()
-				.submit(new UnProcessedOrdersPickerTask(
+				.submit(new UnProcessedOrdersPickerTask(order,
 						GlobalProvider.getGlobalProvider().getUnProcessedOrders(),
 						GlobalProvider.getGlobalProvider().getProcessedOrders()));
+        System.out.println("order no "+order.getId()+" is getting prepared");
 
 	}
 
 	@Override
 	public void nextState(Order order) {
 		order.setState(new PreparedState());
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "PREPARING";
 	}
 
 }

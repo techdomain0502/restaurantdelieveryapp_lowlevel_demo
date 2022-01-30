@@ -23,10 +23,8 @@ public class UnProcessedOrderPutterTask implements Runnable {
 	@Override
 	public void run() {
 		try {
-			order.setStatus(OrderStatus.RECEIVED);
-			db.setCurrentStatus(order.getId(), order.getStatus());
+			db.setCurrentStatus(order.getId(), order.getCurrentState());
 			Thread.sleep(500);
-			System.out.println("order#" + order.getId() + " " + order.getStatus().getDescription());
 
 			synchronized (UnProcessedOrderPutterTask.class) {
 				unprocessedOrders.put(order);

@@ -31,6 +31,12 @@ public class GlobalProvider {
 	private BlockingQueue<Order> processedOrders = new LinkedBlockingDeque<>();
 	private BlockingQueue<Order> delieveryOrders = new LinkedBlockingDeque<>();
     private Scanner sc = new Scanner(System.in);
+    private static int orderId=0;
+    
+    public int getOrderId() {
+    	return orderId++;
+    }
+    
     
 	public ExecutorService getExecService() {
 		return execService;

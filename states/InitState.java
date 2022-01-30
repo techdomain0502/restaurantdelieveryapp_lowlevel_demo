@@ -16,6 +16,11 @@ public class InitState implements OrderState {
 		
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "INIT";
+	}
 	 
 
 }

@@ -21,11 +21,11 @@ public class DelieverOrderCommand implements RestaurantCommand {
 
 	@Override
 	public void execute() {
-        this.order.processState(order);
-        this.order.next();
+		this.order.processState();
+		this.order.next();
 
-        this.order.processState(order);
-        this.order.next();
+		this.order.processState();
+		this.order.next();
 	}
 
 }
